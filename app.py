@@ -60,9 +60,9 @@ def badge(content, color):
 def ligne_html(row):
     statut_color = "#28a745" if row["Statut"] == "En stock" else "#ffc107"
     categorie_colors = {
-        "Informatique": "#007bff",
+        "Bureautique": "#007bff",
         "Mécanique": "#795548",
-        "Informatique": "#f0ad4e"
+        "EPI": "#f0ad4e"
     }
     categorie_color = categorie_colors.get(row["Catégorie"], "#6c757d")
     emplacement_colors = {
@@ -87,7 +87,7 @@ def ligne_html(row):
 st.set_page_config(page_title="Gestion de Stock", layout="wide")
 st.title("Gestion de Stock")
 
-menu = st.sidebar.radio("Menu", ["📋 Voir le stock", "➕ Ajouter un produit","🗑️ Supprimer un article"])
+menu = st.sidebar.radio("Menu", ["📋 Voir le stock", "➕ Ajouter un produit", "🔄 Mouvement de stock", "🗑️ Supprimer un article"])
 
 if menu == "📋 Voir le stock":
     st.subheader("Stock actuel")
@@ -146,7 +146,7 @@ elif menu == "➕ Ajouter un produit":
         with col1:
             nom = st.text_input("Nom du produit")
             ref = st.text_input("Référence")
-            cat = st.selectbox("Catégorie", ["Informatique", "Mécanique", "EPI"])
+            cat = st.selectbox("Catégorie", ["Bureautique", "Mécanique", "EPI"])
         with col2:
             qte = st.number_input("Quantité en stock", min_value=0, step=1)
             seuil = st.number_input("Seuil d'alerte", min_value=0, step=1)
@@ -167,25 +167,42 @@ elif menu == "➕ Ajouter un produit":
             df.to_csv(DATA_FILE, index=False)
             st.success("✅ Produit ajouté avec succès !")
 elif menu == "🗑️ Supprimer un article":
-    st.subheader("🗑️ Supprimer un produit du stock")
+    st.subheader("🗑️ Suppression d'un produit")
 
     if df.empty:
-        st.info("Aucun produit à supprimer.")
+        st.info("Aucun article à supprimer.")
     else:
-        produit_sel = st.selectbox("Sélectionner un produit", df["Nom"].tolist())
-        action = st.radio("Type de suppression", ["Réduire la quantité", "Supprimer complètement l'article"])
+        produit_sel = st.selectbox("Sélectionner un article à supprimer", df["Nom"].unique().tolist())
 
-        if action == "Réduire la quantité":
-            quantite_retrait = st.number_input("Quantité à retirer", min_value=1, step=1)
-            if st.button("Retirer"):
-                idx = df[df["Nom"] == produit_sel].index[0]
-                df.at[idx, "Quantité"] = max(0, df.at[idx, "Quantité"] - quantite_retrait)
-                df = mettre_a_jour_statut(df)
-                df.to_csv(DATA_FILE, index=False)
-                st.success("✅ Quantité réduite avec succès.")
+        # Afficher les infos de l'article (facultatif)
+        st.write("🔎 Détails de l’article sélectionné :")
+        st.dataframe(df[df["Nom"] == produit_sel])
 
-        elif action == "Supprimer complètement l'article":
-            if st.button("Supprimer définitivement"):
-                df = df[df["Nom"] != produit_sel]
-                df.to_csv(DATA_FILE, index=False)
-                st.success(f"❌ L'article '{produit_sel}' a été supprimé.")
+        # Confirmation
+        confirm = st.checkbox("Je confirme la suppression définitive de cet article.")
+
+        if st.button("❌ Supprimer l'article") and confirm:
+            df = df[df["Nom"] != produit_sel]  # Supprimer toutes les lignes avec ce nom
+            df.to_csv(DATA_FILE, index=False)
+            st.success(f"✅ Article '{produit_sel}' supprimé définitivement.")
+
+elif menu == "🔄 Mouvement de stock":
+    st.subheader("🔄 Ajouter ou retirer de la quantité")
+
+    if df.empty:
+        st.info("Aucun produit enregistré.")
+    else:
+        produit_sel = st.selectbox("Choisir un article", df["Nom"].tolist())
+        mouvement = st.radio("Type de mouvement", ["➕ Ajouter", "➖ Retirer"])
+        quantite = st.number_input("Quantité", min_value=1, step=1)
+
+        if st.button("Valider le mouvement"):
+            idx = df[df["Nom"] == produit_sel].index[0]
+            if mouvement == "➕ Ajouter":
+                df.at[idx, "Quantité"] += quantite
+            else:
+                df.at[idx, "Quantité"] = max(0, df.at[idx, "Quantité"] - quantite)
+
+            df = mettre_a_jour_statut(df)
+            df.to_csv(DATA_FILE, index=False)
+            st.success(f"✅ Quantité mise à jour pour '{produit_sel}'")
