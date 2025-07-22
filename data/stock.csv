@@ -1,20 +1,24 @@
 Nom,Référence,Catégorie,Qté,Seuil,Statut,Emplacement,Date
+Bottes de sécurité antiacide,BSA,EPI,3,0,✅ En stock,A,2025-04-01
+Casque antibruit ,CA,EPI,20,0,✅ En stock,A,2025-04-01
 Casquette avec logo (s),CALS,EPI,3,0,✅ En stock,A,2025-07-11
 Casquette sans logo (s),CSLS,EPI,3,0,✅ En stock,A,2025-07-02
 Chausseur de sécurité,CDS,EPI,7,0,✅ En stock,A,2025-07-03
 Chemise (s),CS,EPI,0,0,⚠️ Critique,A,2025-05-23
 Chemise Noir avec logo,CNL,EPI,4,0,✅ En stock,A,2025-07-05
 Chemise avec logo,CAL,EPI,3,0,✅ En stock,A,2025-07-10
-Gants rouge,GR,EPI,9,0,✅ En stock,A,2025-06-21
+Gants rouge,GR,EPI,8,0,✅ En stock,A,2025-07-19
 Gilet avec logo,GAL,EPI,25,0,✅ En stock,A,2025-05-23
-Gilet et pentalent management,GPM,EPI,1,0,✅ En stock,A,2025-05-23
+Gilet et pentalent management,GPM,EPI,0,0,⚠️ Critique,A,2025-07-22
 Gilet visiteurs avec logo,GVAL,EPI,10,0,✅ En stock,A,2025-05-23
 Lunette noir (s),LNS,EPI,0,0,⚠️ Critique,A,2025-07-03
 Lunettes,L,EPI,16,0,✅ En stock,A,2025-07-04
 Pentalant (s),PS,EPI,0,0,⚠️ Critique,A,2025-07-04
-Pentalant Noir avec logo,PNAL,EPI,35,0,✅ En stock,A,2025-04-23
+Pentalant Noir avec logo,PNAL,EPI,5,0,✅ En stock,A,2025-04-23
 Pentalant avec logo,PAL,EPI,26,0,✅ En stock,A,2025-06-26
-Porko avec logo (s),PALS,EPI,1,0,✅ En stock,A,2025-05-23
+Porko avec logo (s),PALS,EPI,0,0,⚠️ Critique,A,2025-07-04
+Safety outwear,SO,EPI,4,0,✅ En stock,A,2025-04-01
 Tablier,T,EPI,1,0,✅ En stock,A,2025-07-01
 Tenu de femme de menage,TFM,EPI,1,0,✅ En stock,A,2025-07-01
 Tricot (s),TS,EPI,0,0,⚠️ Critique,A,2025-07-03
+casque de chantier,CDC,EPI,19,0,✅ En stock,A,2025-04-01
